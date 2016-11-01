@@ -49,8 +49,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         setContentView(R.layout.activity_login);
         try {
             mSocket = IO.socket("http://192.172.19.49:3000");
-            Emitter emitter = new Emitter();
-
         } catch (URISyntaxException e) {
             Utils.makeToast(this, e.getMessage());
             e.printStackTrace();
