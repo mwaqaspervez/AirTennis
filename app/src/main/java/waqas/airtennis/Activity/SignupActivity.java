@@ -119,6 +119,4 @@ public class SignupActivity extends AppCompatActivity implements View.OnFocusCha
             editText.setCompoundDrawablesWithIntrinsicBounds(null, null, ContextCompat.getDrawable(this, R.drawable.ic_error), null);
         return false;
     }
-
-
 }

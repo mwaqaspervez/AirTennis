@@ -133,7 +133,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@drawable/edittext_onselected_white"
-                android:hint="Your Phone No"
+                android:hint="Your Phoneno"
                 android:inputType="phone"
                 android:padding="12dp"
                 android:textAppearance="@style/Base.TextAppearance.AppCompat.Small" />
