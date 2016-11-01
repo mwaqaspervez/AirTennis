@@ -49,6 +49,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         setContentView(R.layout.activity_login);
         try {
             mSocket = IO.socket("http://192.172.19.49:3000");
+            Emitter emitter = new Emitter();
+
         } catch (URISyntaxException e) {
             Utils.makeToast(this, e.getMessage());
             e.printStackTrace();
@@ -82,14 +84,12 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         IntentResult result = IntentIntegrator.parseActivityResult(requestCode, resultCode, data);
         if (result != null) {
-            if (result.getContents() == null) {
+            if (result.getContents() == null)
                 Toast.makeText(this, "Cancelled", Toast.LENGTH_LONG).show();
-            } else {
+            else
                 Toast.makeText(this, "Scanned: " + result.getContents(), Toast.LENGTH_LONG).show();
-            }
-        } else {
+        } else
             super.onActivityResult(requestCode, resultCode, data);
-        }
     }
 
 }
