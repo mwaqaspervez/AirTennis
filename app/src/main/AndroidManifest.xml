@@ -27,6 +27,9 @@
         <activity
             android:name=".activity.AboutUs"
             android:theme="@style/AppTheme.NoActionBars" />
+        <activity
+            android:name=".activity.GameActivity"
+            android:theme="@style/AppTheme.NoActionBars" />
 
     </application>
 

@@ -5,10 +5,6 @@ import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.hardware.Sensor;
-import android.hardware.SensorEvent;
-import android.hardware.SensorEventListener;
-import android.hardware.SensorManager;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AlertDialog;
@@ -23,25 +19,35 @@ import com.github.nkzawa.socketio.client.Socket;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
 import com.mwaqaspervez.airtennis.R;
+import com.mwaqaspervez.airtennis.Utils.NetworkSocket;
+import com.mwaqaspervez.airtennis.Utils.Util;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
-public class MainActivity extends AppCompatActivity implements SensorEventListener, View.OnClickListener {
+public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
     private static final String TAG = "Debugger";
     private Socket mSocket;
-    private Sensor sensor;
-    private SensorManager manager;
     private String QRCodeString;
     private JSONObject object;
 
     private Emitter.Listener listener = new Emitter.Listener() {
         @Override
         public void call(Object... args) {
+            Log.i("TAG : connection", "" + args.length);
             JSONObject object = (JSONObject) args[0];
             try {
-                Log.i(TAG, object.getString("code"));
+                //  Log.i(TAG, object.getString("code"));
+                Log.i("TAG : connection", object.getString("playerStatus"));
+                Intent intent = new Intent(MainActivity.this, GameActivity.class);
+
+                intent.putExtra("QRString", QRCodeString);
+                intent.putExtra("player", object.getString("playerStatus"));
+
+                startActivity(intent);
+
+                //  Toast.makeText(MainActivity.this, object.getString("code"), Toast.LENGTH_LONG).show();
             } catch (JSONException e) {
                 e.printStackTrace();
             }
@@ -74,66 +80,26 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
                 Log.i("Socket", "connecting");
 
                 try {
-                    mSocket = IO.socket("http://192.168.1.5:4050");
-                    Log.i(TAG + "Socket:", "Initialized");
+
+                    mSocket = NetworkSocket.getInstance().getSocket();
+
                 } catch (Exception e) {
                     Log.e(TAG + "SocketError : ", e.getMessage());
                 }
                 if (!mSocket.connected())
                     mSocket.connect();
 
-                mSocket.on("connected", listener);
-                manager = (SensorManager) getSystemService(SENSOR_SERVICE);
-                sensor = manager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
-                manager.registerListener(this, sensor, SensorManager.SENSOR_DELAY_NORMAL);
+                try {
+                    mSocket.emit("androidHasConnected", new JSONObject().put("socketId", QRCodeString));
+                    mSocket.on("connected", listener);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
             }
         } else
             super.onActivityResult(requestCode, resultCode, data);
     }
 
-
-    @Override
-    protected void onStart() {
-        super.onStart();
-        if (manager != null)
-            manager.registerListener(this, sensor, SensorManager.SENSOR_DELAY_NORMAL);
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-        if (manager != null)
-            manager.unregisterListener(this);
-    }
-
-    @Override
-    public void onSensorChanged(SensorEvent event) {
-
-        double force = 0.57 * Math.sqrt((event.values[0] * event.values[0]) + (event.values[1] * event.values[1]) + (event.values[2] * event.values[2]));
-        Log.i(TAG + "Force: ", "" + force);
-        if (force > 7.0) {
-            try {
-                object.put("socketId", QRCodeString);
-                object.put("force", force);
-
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-            mSocket.emit("Force", object);
-            manager.unregisterListener(this);
-            try {
-                Thread.sleep(1000);
-                manager.registerListener(this, sensor, SensorManager.SENSOR_DELAY_NORMAL);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-        }
-    }
-
-    @Override
-    public void onAccuracyChanged(Sensor sensor, int accuracy) {
-
-    }
 
     @Override
     public void onClick(final View view) {
@@ -166,7 +132,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
                         })
                         .create().show();
                 break;
-            
+
             case R.id.bt_about_us:
                 startActivity(new Intent(this, AboutUs.class));
                 break;
