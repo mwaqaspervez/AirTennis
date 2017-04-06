@@ -7,6 +7,7 @@ import android.hardware.SensorManager;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.view.WindowManager;
 
 import com.mwaqaspervez.airtennis.R;
 import com.mwaqaspervez.airtennis.Utils.NetworkSocket;
@@ -25,12 +26,12 @@ public class GameActivity extends AppCompatActivity implements SensorEventListen
         super.onCreate(savedInstanceState);
         setContentView(R.layout.layout_game);
 
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+
         object = new JSONObject();
         manager = (SensorManager) getSystemService(SENSOR_SERVICE);
         sensor = manager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
         manager.registerListener(this, sensor, SensorManager.SENSOR_DELAY_NORMAL);
-
-
     }
 
 
