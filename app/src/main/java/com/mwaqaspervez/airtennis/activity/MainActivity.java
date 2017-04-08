@@ -64,7 +64,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private void init() {
         findViewById(R.id.bt_scan_code).setOnClickListener(this);
         findViewById(R.id.bt_how_to_play).setOnClickListener(this);
-        findViewById(R.id.bt_desktop_app).setOnClickListener(this);
+     //   findViewById(R.id.bt_desktop_app).setOnClickListener(this);
         findViewById(R.id.bt_about_us).setOnClickListener(this);
         object = new JSONObject();
     }
@@ -115,7 +115,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 startActivity(new Intent(this, HowToPlay.class));
                 break;
 
-            case R.id.bt_desktop_app:
+         /*   case R.id.bt_desktop_app:
 
                 new AlertDialog.Builder(this)
                         .setTitle("Get App")
@@ -132,7 +132,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         })
                         .create().show();
                 break;
-
+*/
             case R.id.bt_about_us:
                 startActivity(new Intent(this, AboutUs.class));
                 break;

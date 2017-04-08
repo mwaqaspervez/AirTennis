@@ -15,7 +15,7 @@ public class NetworkSocket {
     public static NetworkSocket getInstance() throws URISyntaxException {
         if (instance == null) {
             instance = new NetworkSocket();
-            mSocket = IO.socket("http://192.168.0.108:4050");
+            mSocket = IO.socket("http://192.168.0.102:4050");
         }
         return instance;
 
@@ -24,5 +24,6 @@ public class NetworkSocket {
     public synchronized Socket getSocket() throws URISyntaxException {
         return mSocket;
     }
+
 
 }

@@ -3,4 +3,8 @@
     <string name="desktop_app">www.getApp.com</string>
     <string name="first_screen_text">Download the desktop app\n www.getApp.com</string>
     <string name="li">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.</string>
+    <string name="about_saad">An ancient relic of the past.  </string>
+    <string name="about_nauman" />
+    <string name="about_waqas" />
+    <string name="about_minhaj" />
 </resources>

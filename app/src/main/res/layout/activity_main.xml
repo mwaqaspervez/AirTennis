@@ -35,14 +35,6 @@
         android:background="@color/colorPrimary"
         android:text="How To Play"
         android:textColor="@color/white" />
- <Button
-        android:id="@+id/bt_desktop_app"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="12dp"
-        android:background="@color/colorPrimary"
-        android:text="Get Desktop App"
-        android:textColor="@color/white" />
 
     <Button
 
